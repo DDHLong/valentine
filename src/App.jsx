@@ -1,0 +1,65 @@
+import { useState } from "react";
+import "./App.css";
+const img =
+  "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnA3b2lycnZ6NjRpbHQ5Y2htN3czdWZ4NmJuMW9pcW9nMG5ybmNycSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/5Yfcn9JO3ZMN6YtXPJ/giphy.gif";
+const acceptImg =
+  "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXhmcG95aWhkeWpzdXMzOWUzMnN5YzVkMGRlczJocmxya3l2OGx3eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/sRLfDd1R33y1OHGMUB/giphy.gif";
+
+const noAnswers = [
+  "No",
+  "Are you sure",
+  "Really sure??",
+  "Are you positive?",
+  "Please say yes",
+  "Just think about it",
+  "If you say no, I will be really sad...",
+  "I'll be very very sad",
+  "I'll be sad for the rest of my life",
+];
+
+function App() {
+  const [index, setIndex] = useState(0);
+  const [noText, setNoText] = useState(noAnswers[0]);
+  const [accept, setAccept] = useState(false);
+  const handleYes = () => {
+    setAccept(true);
+  };
+
+  const handleNo = () => {
+    const yesButton = document.querySelector(".yes-button");
+    const currentSize = window.getComputedStyle(yesButton).fontSize;
+    const newSize = parseFloat(currentSize) * 1.5;
+    yesButton.style.fontSize = `${newSize}px`;
+    setIndex(index + 1);
+    setNoText(noAnswers[index + 1]);
+    if (index === noAnswers.length - 1) {
+      setIndex(0);
+      setNoText(noAnswers[0]);
+    }
+  };
+
+  if (accept) {
+    return (
+      <div className="container">
+        <h1>Knew you would say yes!</h1>
+        <img src={acceptImg} alt="capoo-ily" />
+      </div>
+    );
+  }
+  return (
+    <div className="container">
+      <h1>Will you be my valentine?</h1>
+      <div className="button-container">
+        <button className="yes-button" onClick={handleYes}>
+          Yes
+        </button>
+        <button className="no-button" onClick={handleNo}>
+          {noText}
+        </button>
+      </div>
+      <img src={img} alt="capoo" />
+    </div>
+  );
+}
+
+export default App;
