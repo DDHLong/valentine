@@ -67,20 +67,3 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-
-.button-container {
-  width: 100%;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.yes-button {
-  background-color: rgb(106, 243, 158);
-}
-
-.no-button {
-  background-color: rgb(243, 107, 107);
-  height: fit-content;
-}
