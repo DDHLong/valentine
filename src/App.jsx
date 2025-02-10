@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
+
 const img =
   "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnA3b2lycnZ6NjRpbHQ5Y2htN3czdWZ4NmJuMW9pcW9nMG5ybmNycSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/5Yfcn9JO3ZMN6YtXPJ/giphy.gif";
 const acceptImg =
@@ -19,24 +20,24 @@ const noAnswers = [
 
 function App() {
   const [index, setIndex] = useState(0);
-  const [noText, setNoText] = useState(noAnswers[0]);
   const [accept, setAccept] = useState(false);
+  const [fontSize, setFontSize] = useState(16); // Default font size
+
   const handleYes = () => {
     setAccept(true);
   };
 
   const handleNo = () => {
-    const yesButton = document.querySelector(".yes-button");
-    const currentSize = window.getComputedStyle(yesButton).fontSize;
-    const newSize = parseFloat(currentSize) * 1.5;
-    yesButton.style.fontSize = `${newSize}px`;
-    setIndex(index + 1);
-    setNoText(noAnswers[index + 1]);
-    if (index === noAnswers.length - 1) {
-      setIndex(0);
-      setNoText(noAnswers[0]);
-    }
+    setIndex((prevIndex) => (prevIndex + 1) % noAnswers.length);
+    setFontSize((prevSize) => prevSize * 1.5);
   };
+
+  useEffect(() => {
+    const yesButton = document.querySelector(".yes-button");
+    if (yesButton) {
+      yesButton.style.fontSize = `${fontSize}px`;
+    }
+  }, [fontSize]);
 
   if (accept) {
     return (
@@ -46,6 +47,7 @@ function App() {
       </div>
     );
   }
+
   return (
     <div className="container">
       <h1>Will you be my valentine?</h1>
@@ -54,7 +56,7 @@ function App() {
           Yes
         </button>
         <button className="no-button" onClick={handleNo}>
-          {noText}
+          {noAnswers[index]}
         </button>
       </div>
       <img src={img} alt="capoo" />
